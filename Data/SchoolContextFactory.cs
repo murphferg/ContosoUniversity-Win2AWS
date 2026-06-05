@@ -7,10 +7,10 @@ namespace ContosoUniversity.Data
     {
         public static SchoolContext Create()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"];
             var optionsBuilder = new DbContextOptionsBuilder<SchoolContext>();
-            optionsBuilder.UseSqlServer(connectionString);
-            
+            optionsBuilder.UseSqlServer(connectionString.ConnectionString);
+
             return new SchoolContext(optionsBuilder.Options);
         }
     }
