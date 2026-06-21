@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,11 @@ namespace ContosoUniversity.Controllers
 {
     public class StudentsController : BaseController
     {
+        public StudentsController(SchoolContext db, NotificationClient notificationClient)
+            : base(db, notificationClient)
+        {
+        }
+
         // GET: Students - Admins and Teachers can view
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -221,13 +227,6 @@ namespace ContosoUniversity.Controllers
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // Base class will dispose db and notificationService
-            }
-            base.Dispose(disposing);
-        }
+
     }
 }

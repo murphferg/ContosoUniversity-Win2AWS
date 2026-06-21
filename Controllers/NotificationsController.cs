@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using ContosoUniversity.Services;
+using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -9,36 +10,29 @@ namespace ContosoUniversity.Controllers
 {
     public class NotificationsController : BaseController
     {
+        public NotificationsController(SchoolContext db, NotificationClient notificationClient)
+            : base(db, notificationClient)
+        {
+        }
+
         // GET: api/notifications - Get pending notifications for admin
         [HttpGet]
         public JsonResult GetNotifications()
         {
-            var notifications = new List<Notification>();
-
             try
             {
-                // Read all available notifications from the queue
-                Notification notification;
-                while ((notification = notificationService.ReceiveNotification()) != null)
-                {
-                    notifications.Add(notification);
-
-                    // Limit to prevent overwhelming the UI
-                    if (notifications.Count >= 10)
-                        break;
-                }
+                var notifications = notificationClient.GetNotifications(10);
+                return Json(new {
+                    success = true,
+                    notifications = notifications,
+                    count = notifications.Count
+                });
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error retrieving notifications: {ex.Message}");
                 return Json(new { success = false, message = "Error retrieving notifications" });
             }
-
-            return Json(new {
-                success = true,
-                notifications = notifications,
-                count = notifications.Count
-            });
         }
 
         // POST: api/notifications/mark-read
@@ -47,7 +41,7 @@ namespace ContosoUniversity.Controllers
         {
             try
             {
-                notificationService.MarkAsRead(id);
+                notificationClient.MarkAsRead(id);
                 return Json(new { success = true });
             }
             catch (Exception ex)

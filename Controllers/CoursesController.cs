@@ -6,6 +6,7 @@ using System.IO;
 using System.Web;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,6 +16,11 @@ namespace ContosoUniversity.Controllers
 {
     public class CoursesController : BaseController
     {
+        public CoursesController(SchoolContext db, NotificationClient notificationClient)
+            : base(db, notificationClient)
+        {
+        }
+
         // GET: Courses
         public ActionResult Index()
         {
@@ -260,13 +266,6 @@ using (var stream = new FileStream(filePath, FileMode.Create))
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // Base class will dispose db and notificationService
-            }
-            base.Dispose(disposing);
-        }
+
     }
 }

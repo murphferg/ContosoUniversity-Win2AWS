@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ContosoUniversity.Data;
+using ContosoUniversity.Middleware;
 using ContosoUniversity.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,12 +22,16 @@ builder.Services.AddControllersWithViews();
 // Entity Framework Core - SchoolContext
 // Connection string migrated from Web.config <connectionStrings> to appsettings.json
 builder.Services.AddDbContext<SchoolContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// NotificationService (previously instantiated directly in BaseController)
-// Registered as scoped so each HTTP request gets its own instance, matching
-// the original per-request controller lifetime.
-builder.Services.AddScoped<NotificationService>();
+// Typed HTTP client for Notification Microservice
+builder.Services.AddHttpClient<NotificationClient>();
+
+// HTTP client for SPA dev server proxy (used in development mode)
+builder.Services.AddHttpClient("SpaDevServer", client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
 
 // -------------------------------------------------------------------------
 // Kestrel / IIS request limits
@@ -68,6 +73,10 @@ else
 
 app.UseHttpsRedirection();
 
+// Global API exception handler — intercepts unhandled exceptions on /api paths
+// and returns a generic 500 JSON response. Must be registered before routing.
+app.UseMiddleware<ApiExceptionMiddleware>();
+
 // Serve static files from wwwroot (replaces BundleConfig script/style bundles;
 // scripts/styles are referenced directly via <script> and <link> tags or tooling)
 app.UseStaticFiles();
@@ -81,6 +90,12 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// SPA fallback — must be registered AFTER endpoint routing so that API routes
+// (/api/*) and static files are served first. For any unmatched non-API,
+// non-static-file GET request, serves index.html (production) or proxies to
+// the React dev server (development).
+app.UseMiddleware<SpaFallbackMiddleware>();
 
 // -------------------------------------------------------------------------
 // Database initialisation (migrated from Global.asax.cs InitializeDatabase)

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 
 namespace ContosoUniversity.Data
 {
@@ -7,9 +6,8 @@ namespace ContosoUniversity.Data
     {
         public static SchoolContext Create()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"];
             var optionsBuilder = new DbContextOptionsBuilder<SchoolContext>();
-            optionsBuilder.UseSqlServer(connectionString.ConnectionString);
+            optionsBuilder.UseNpgsql("Host=localhost;Database=contoso;Username=postgres;Password=F3r6u5@n!");
 
             return new SchoolContext(optionsBuilder.Options);
         }

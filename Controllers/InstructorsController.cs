@@ -6,6 +6,7 @@ using System.Net;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 using ContosoUniversity.Models.SchoolViewModels;
+using ContosoUniversity.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -13,6 +14,11 @@ namespace ContosoUniversity.Controllers
 {
     public class InstructorsController : BaseController
     {
+        public InstructorsController(SchoolContext db, NotificationClient notificationClient)
+            : base(db, notificationClient)
+        {
+        }
+
         // GET: Instructors - All roles can view
         public ActionResult Index(int? id, int? courseID)
         {

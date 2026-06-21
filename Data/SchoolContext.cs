@@ -23,7 +23,9 @@ namespace ContosoUniversity.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure all DateTime properties to use datetime2
+            // Configure all DateTime properties to use timestamp without time zone (PostgreSQL).
+            // DateTime.Parse produces Kind=Unspecified values; timestamptz requires UTC, so we
+            // use the timezone-agnostic type which maps directly to unspecified/local DateTimes.
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 var properties = entityType.ClrType.GetProperties()
@@ -33,7 +35,7 @@ namespace ContosoUniversity.Data
                 {
                     modelBuilder.Entity(entityType.ClrType)
                         .Property(property.Name)
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
                 }
             }
 

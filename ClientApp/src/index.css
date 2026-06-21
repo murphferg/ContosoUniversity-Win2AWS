@@ -1,0 +1,378 @@
+/* Contoso University SPA - Global Styles */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Roboto:300,400,500,700');
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 20px;
+  background: #f8f9fa;
+  font-family: 'Open Sans', 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #2c3e50;
+  min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  color: #2c3e50;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 32px;
+  color: #007bff;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+h2 {
+  font-size: 26px;
+  color: #34495e;
+  margin-bottom: 18px;
+}
+
+/* Links */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Navigation Bar */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+}
+
+header nav {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border-bottom: 3px solid #ffd700;
+  box-shadow: 0 3px 10px rgba(30, 60, 114, 0.3);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 8px;
+}
+
+header nav > a:first-child {
+  font-family: 'Roboto', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: white !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  text-decoration: none;
+  margin-right: 16px;
+}
+
+header nav > a:first-child::before {
+  content: "🎓";
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+header nav > a:first-child:hover {
+  color: #ffd700 !important;
+  text-decoration: none;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+header nav ul li {
+  margin: 0;
+}
+
+header nav ul li a {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 10px 14px;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+header nav ul li a:hover {
+  color: #ffd700 !important;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/* Main Content */
+main {
+  background: white;
+  margin: 80px auto 0;
+  max-width: 1200px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  border-top: none;
+  padding: 40px;
+  min-height: calc(100vh - 120px);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+  border: 1px solid #dee2e6;
+}
+
+thead tr {
+  background: #f8f9fa;
+}
+
+th {
+  color: #495057;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 14px 16px;
+  border-bottom: 2px solid #dee2e6;
+  text-align: left;
+  white-space: nowrap;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f3f4;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Buttons */
+button {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+button[type="submit"],
+button:not([disabled]):not([style*="background: none"]) {
+  background: #007bff;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:hover,
+button:not([disabled]):not([style*="background: none"]):hover {
+  background: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Forms */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  border: 2px solid #e9ecef;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 400px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+input[type="file"] {
+  max-width: 100%;
+  padding: 10px;
+  border: 2px dashed #dee2e6;
+  border-radius: 4px;
+  background: #f8f9fa;
+}
+
+label {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 14px;
+}
+
+/* Fieldset */
+fieldset {
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+fieldset legend {
+  font-weight: 600;
+  color: #495057;
+  padding: 0 8px;
+  font-size: 14px;
+}
+
+/* Description Lists */
+dl {
+  margin: 0;
+}
+
+dt {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+dd {
+  margin-left: 0;
+  margin-bottom: 12px;
+  color: #6c757d;
+}
+
+/* Alerts / Error Messages */
+[role="alert"] {
+  border-radius: 6px;
+  border-left: 4px solid #dc3545;
+}
+
+/* Pagination */
+nav[aria-label="Pagination"] ul {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+nav[aria-label="Pagination"] button {
+  min-width: 36px;
+  height: 36px;
+  padding: 4px 10px;
+  border: 1px solid #dee2e6;
+  background: white;
+  color: #007bff;
+  border-radius: 4px;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+nav[aria-label="Pagination"] button:hover:not(:disabled) {
+  background: #e9ecef;
+  color: #0056b3;
+  box-shadow: none;
+}
+
+nav[aria-label="Pagination"] button[aria-current="page"] {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+nav[aria-label="Pagination"] button:disabled {
+  color: #6c757d;
+  background: #f8f9fa;
+}
+
+/* Notification Bell */
+header nav > div:last-child {
+  margin-left: auto;
+}
+
+/* Sortable column headers */
+th button {
+  background: none !important;
+  border: none;
+  color: #495057;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+th button:hover {
+  color: #007bff;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Clickable table rows */
+tr[style*="cursor: pointer"]:hover {
+  background-color: #e8f4fd !important;
+}
+
+/* Search bar area */
+input[aria-label*="Search"] {
+  max-width: 280px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main {
+    margin: 70px 10px 0;
+    padding: 20px;
+    border-radius: 6px;
+  }
+
+  header nav {
+    flex-wrap: wrap;
+    padding: 8px 16px;
+  }
+
+  header nav ul {
+    flex-wrap: wrap;
+  }
+}

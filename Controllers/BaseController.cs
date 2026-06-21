@@ -10,11 +10,12 @@ namespace ContosoUniversity.Controllers
     public abstract class BaseController : Controller
     {
         protected SchoolContext db;
-        protected NotificationService notificationService = new NotificationService();
+        protected NotificationClient notificationClient;
 
-        public BaseController()
+        protected BaseController(SchoolContext db, NotificationClient notificationClient)
         {
-            db = SchoolContextFactory.Create();
+            this.db = db;
+            this.notificationClient = notificationClient;
         }
 
         protected void SendEntityNotification(string entityType, string entityId, EntityOperation operation)
@@ -27,23 +28,13 @@ namespace ContosoUniversity.Controllers
             try
             {
                 var userName = "System"; // No authentication, use System as default user
-                notificationService.SendNotification(entityType, entityId, entityDisplayName, operation, userName);
+                notificationClient.SendNotification(entityType, entityId, entityDisplayName, operation, userName);
             }
             catch (Exception ex)
             {
                 // Log the error but don't break the main operation
                 System.Diagnostics.Debug.WriteLine($"Failed to send notification: {ex.Message}");
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db?.Dispose();
-                notificationService?.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
