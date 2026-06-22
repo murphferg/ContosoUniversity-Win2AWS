@@ -11,6 +11,10 @@ using ContosoUniversity.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Aspire service defaults: OpenTelemetry, health checks, service discovery,
+// and standard HTTP resilience. Wired by the Aspire AppHost.
+builder.AddServiceDefaults();
+
 // -------------------------------------------------------------------------
 // Service registrations (migrated from Global.asax.cs Application_Start and
 // the legacy Startup.ConfigureServices)
@@ -55,6 +59,9 @@ builder.WebHost.ConfigureKestrel(options =>
 // Build the application
 // -------------------------------------------------------------------------
 var app = builder.Build();
+
+// Aspire default endpoints: /health and /alive (Development only).
+app.MapDefaultEndpoints();
 
 // -------------------------------------------------------------------------
 // Middleware pipeline (migrated from legacy Startup.Configure)

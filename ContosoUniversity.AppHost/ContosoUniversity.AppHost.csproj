@@ -8,4 +8,15 @@
     <UserSecretsId>2639ef5f-0149-46d9-bcb5-770bd90e7cb1</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.4.6" />
+    <PackageReference Include="Aspire.Hosting.JavaScript" Version="13.4.6" />
+    <PackageReference Include="Aspire.Hosting.Browsers" Version="13.4.6-preview.1.26319.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ContosoUniversity.csproj" />
+    <ProjectReference Include="..\ContosoUniversity.NotificationService\ContosoUniversity.NotificationService.csproj" />
+  </ItemGroup>
+
 </Project>
