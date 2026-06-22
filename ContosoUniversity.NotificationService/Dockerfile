@@ -1,18 +1,20 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 5001
-
+# Notification microservice container image.
+# Build context is the REPO ROOT so the ServiceDefaults project reference resolves.
+# Build with:  docker build -f ContosoUniversity.NotificationService/Dockerfile .
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["ContosoUniversity.NotificationService.csproj", "."]
-RUN dotnet restore
+
+# Restore against just the csproj files first for better layer caching.
+COPY ["ContosoUniversity.NotificationService/ContosoUniversity.NotificationService.csproj", "ContosoUniversity.NotificationService/"]
+COPY ["ContosoUniversity.ServiceDefaults/ContosoUniversity.ServiceDefaults.csproj", "ContosoUniversity.ServiceDefaults/"]
+RUN dotnet restore "ContosoUniversity.NotificationService/ContosoUniversity.NotificationService.csproj"
+
 COPY . .
-RUN dotnet build -c Release -o /app/build
+RUN dotnet publish "ContosoUniversity.NotificationService/ContosoUniversity.NotificationService.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish
-
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+EXPOSE 8080
+ENV ASPNETCORE_HTTP_PORTS=8080
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "ContosoUniversity.NotificationService.dll"]

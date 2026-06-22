@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
 using ContosoUniversity.Data;
 using ContosoUniversity.Middleware;
 using ContosoUniversity.Services;
@@ -24,9 +25,28 @@ builder.AddServiceDefaults();
 builder.Services.AddControllersWithViews();
 
 // Entity Framework Core - SchoolContext
-// Connection string migrated from Web.config <connectionStrings> to appsettings.json
+// Locally (and under Aspire) the single "DefaultConnection" connection string is
+// used as-is. In AWS (ECS + RDS) the connection is supplied as discrete values —
+// DB_HOST/DB_PORT/DB_NAME/DB_USER as env vars and DB_PASSWORD injected from
+// Secrets Manager — and composed here so no secret is ever baked into config.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var dbHost = builder.Configuration["DB_HOST"];
+if (!string.IsNullOrWhiteSpace(dbHost))
+{
+    var dbConnection = new NpgsqlConnectionStringBuilder
+    {
+        Host = dbHost,
+        Port = int.TryParse(builder.Configuration["DB_PORT"], out var dbPort) ? dbPort : 5432,
+        Database = builder.Configuration["DB_NAME"] ?? "contoso",
+        Username = builder.Configuration["DB_USER"],
+        Password = builder.Configuration["DB_PASSWORD"],
+        SslMode = SslMode.Require
+    };
+    connectionString = dbConnection.ConnectionString;
+}
+
 builder.Services.AddDbContext<SchoolContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 // Typed HTTP client for Notification Microservice
 builder.Services.AddHttpClient<NotificationClient>();

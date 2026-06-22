@@ -1,0 +1,11 @@
+# Keep the Docker build context small and deterministic.
+**/bin/
+**/obj/
+**/node_modules/
+**/.vs/
+**/.git/
+**/*.user
+infra/cdk.out/
+ClientApp/dist/
+wwwroot/
+**/TestResults/

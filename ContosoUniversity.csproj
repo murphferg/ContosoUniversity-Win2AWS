@@ -23,6 +23,10 @@
     <Content Remove="ContosoUniversity.ServiceDefaults\**"></Content>
     <EmbeddedResource Remove="ContosoUniversity.ServiceDefaults\**"></EmbeddedResource>
     <None Remove="ContosoUniversity.ServiceDefaults\**"></None>
+    <Compile Remove="infra\**"></Compile>
+    <Content Remove="infra\**"></Content>
+    <EmbeddedResource Remove="infra\**"></EmbeddedResource>
+    <None Remove="infra\**"></None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\jquery-3.4.1.intellisense.js"></None>

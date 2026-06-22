@@ -1,0 +1,11 @@
+{
+  "app": "dotnet run --project ContosoUniversity.Infra.csproj",
+  "watch": {
+    "include": ["**"],
+    "exclude": ["README.md", "cdk*.json", "bin", "obj", "**/*.csproj"]
+  },
+  "context": {
+    "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": true,
+    "@aws-cdk/core:newStyleStackSynthesis": true
+  }
+}

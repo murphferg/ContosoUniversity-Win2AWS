@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ContosoUniversity.Infra</RootNamespace>
+    <!-- This is a standalone AWS CDK app; it is intentionally NOT part of
+         ContosoUniversity.sln so it builds/deploys on its own lifecycle. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.CDK.Lib" Version="2.170.0" />
+    <PackageReference Include="Constructs" Version="10.3.0" />
+  </ItemGroup>
+
+</Project>
